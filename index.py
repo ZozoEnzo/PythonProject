@@ -28,10 +28,11 @@ def lastandnewpopulation():
     results.append(json.dumps(datalast['records'][0]['fields']))
     results.append(json.dumps(datanew['records'][0]['fields']))
     for population in populations:
-        if population['year'] == '1985':
+        print(population.keys())
+        if "1985" in population:
             results.append(json.dumps(population))
-        if population['year'] == '2019':
-            results.append(json.dumps(population))
+        if "2019" in population:
+           results.append(json.dumps(population))
     return json.dumps(results)
 
 
