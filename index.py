@@ -24,11 +24,14 @@ def lastandnewpopulation():
     results = []
     datalast = call(URL_YEAR_CINEMA + "1985")
     datanew = call(URL_YEAR_CINEMA + "2019")
-    population = call(URL_POPULATION)
+    populations = call(URL_POPULATION)
     results.append(json.dumps(datalast['records'][0]['fields']))
     results.append(json.dumps(datanew['records'][0]['fields']))
-    print(population)
-    #results.append(json.dumps(population))
+    for population in populations:
+        if population['year'] == '1985':
+            results.append(json.dumps(population))
+        if population['year'] == '2019':
+            results.append(json.dumps(population))
     return json.dumps(results)
 
 
