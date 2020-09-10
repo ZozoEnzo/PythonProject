@@ -3,6 +3,7 @@
 ###Installation
 Récupérer le projet via git <br>
 ```pip install flask```<br>
+```pip install flask_cors```<br>
 Lancer le serveur python <br>
 ```py index.py ```
 
