@@ -33,7 +33,7 @@ def lasttonew():
         value_evolve = '+' + str(evolution) + ' % entrées'
     else:
         value_evolve = '-' + str(evolution) + ' % entrées'
-    results = {"title": "Evolution",
+    results = {"title": "Evolution entrées",
                "chart": {
                    "data": [{
                        "value": [value_last, value_new],
