@@ -130,13 +130,17 @@ def lastandnewpopulation():
         value_evolve_pop = '+'+ str(evolution_pop) + ' % de population'
     else: 
         value_evolve_pop = '-'+ str(evolution_pop)+' % de population'
+    label_pop = 'Population'
     
     results = { "title" : "Entrée en fonction de la population",
         "chart": {
         "data":[{
         "value" : [value_last, value_new],
         "label" : value_label
-    }],
+    }, {
+        "value": [last_pop, new_pop],
+        "label": label_pop
+        }],
     "labels": ["1985","2019"]},
     "data": [value_evolve,value_evolve_pop]}
     return json.dumps(results)
