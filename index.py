@@ -79,7 +79,7 @@ def lasttonewseance():
         value_evolve_seance = '+' + str(evolution_seance) + ' % seances'
     else:
         value_evolve_seance = '-' + str(evolution_seance) + ' % entrées'
-    results = {"title": "Evolution seance",
+    results = {"title": "Evolution séances",
                "chart": {
                    "data": [{
                        "value": [value_last_entrees, value_new_entrees],
