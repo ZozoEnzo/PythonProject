@@ -44,6 +44,55 @@ def lasttonew():
     return json.dumps(results)
 
 
+@app.route('/lasttonewseance')
+def lasttonewseance():
+    # Calcul du nombre d'entré en fonction des années
+    datalast = call(URL_YEAR_CINEMA + "1985")
+    data_list_last = json.dumps(datalast['records'][0]['fields'])
+    alls_last = json.loads(data_list_last)
+    list_key_last = list(alls_last.keys())
+    list_val_last = list(alls_last.values())
+    value_last_entrees = list_val_last[list_key_last.index('entrees_millions')]
+    value_last_seance = list_val_last[list_key_last.index('seances_milliers')]
+    datanew = call(URL_YEAR_CINEMA + "2019")
+    data_list_new = json.dumps(datanew['records'][0]['fields'])
+    alls_new = json.loads(data_list_new)
+    list_key_new = list(alls_new.keys())
+    list_val_new = list(alls_new.values())
+    value_new_entrees = list_val_new[list_key_new.index('entrees_millions')]
+    value_new_seance = list_val_new[list_key_new.index('seances_milliers')]
+    value_entrees = 'Million d\'entrée'
+    value_seances = 'Millier de seances'
+
+    # Calcule de l'évolution
+    personne_par_seance_avant = round((value_last_entrees * 1000000) / (value_last_seance * 1000), 2)
+    personne_par_seance_mtn =  round((value_new_entrees * 1000000) / (value_new_seance * 1000), 2)
+    evolution_entrees = round(((value_new_entrees - value_last_entrees) / value_last_entrees) * 100, 2)
+    evolution_seance = round(((value_new_seance - value_last_seance) / value_last_seance) * 100, 2)
+    pp_par_seance_av = str(personne_par_seance_avant) + " personnes moyennes par seance en 1985"
+    pp_par_seance_mtn =str(personne_par_seance_mtn) + " personnes moyennes par seance 2019"
+    if value_last_entrees < value_new_entrees:
+        value_evolve_entrees = '+' + str(evolution_entrees) + ' % entrées'
+    else:
+        value_evolve_entrees = '-' + str(evolution_entrees) + ' % entrées'
+    if value_last_seance < value_new_seance:
+        value_evolve_seance = '+' + str(evolution_seance) + ' % seances'
+    else:
+        value_evolve_seance = '-' + str(evolution_seance) + ' % entrées'
+    results = {"title": "Evolution",
+               "chart": {
+                   "data": [{
+                       "value": [value_last_entrees, value_new_entrees],
+                       "label": value_entrees
+                   }, {
+                       "value": [value_last_seance, value_new_seance],
+                       "label": value_seances
+                   }],
+                   "labels": ["1985", "2019"]},
+               "data": [value_evolve_entrees, value_evolve_seance, pp_par_seance_av, pp_par_seance_mtn]}
+    return json.dumps(results)
+
+
 @app.route('/lastandnewpopulation')
 def lastandnewpopulation():
     #Calcul du nombre d'entré en fonction des années
@@ -191,15 +240,22 @@ def fivemorelessfive(year):
 
 @app.route('/year/<path:year>')
 def index(year):
-    result = []
-    url = URL_YEAR_CINEMA + year
-    data = call(url)
-    data_list = json.dumps(data['records'][0]['fields'])
-    alls = json.loads(data_list)
-    list_key = list(alls.keys())
-    list_val = list(alls.values())
-    value = list_val[list_key.index('entrees_millions')]
-    return json.dumps(data_list)
+    # Calcul du nombre d'entré en fonction des années
+    datalast = call(URL_YEAR_CINEMA + year)
+    data_list_last = json.dumps(datalast['records'][0]['fields'])
+    alls_last = json.loads(data_list_last)
+    list_key_last = list(alls_last.keys())
+    list_val_last = list(alls_last.values())
+    value_last = list_val_last[list_key_last.index('entrees_millions')]
+    value_label = 'Million d\'entrée'
+    results = {"title": "Evolution",
+               "chart": {
+                   "data": [{
+                       "value": [value_last],
+                       "label": value_label
+                   }],
+                   "labels": [year]}}
+    return json.dumps(results)
 
 
 def call(url):
