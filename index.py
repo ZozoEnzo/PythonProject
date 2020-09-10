@@ -1,7 +1,7 @@
 from flask import Flask, abort
 import requests
 import json
-from flask_cors import CORS
+from flask_cors  import CORS
 
 app = Flask(__name__)
 CORS(app)
@@ -33,14 +33,14 @@ def lasttonew():
         value_evolve = '+' + str(evolution) + ' % entrées'
     else:
         value_evolve = '-' + str(evolution) + ' % entrées'
-    results = {"title": "Entrée en fonction de la population",
+    results = {"title": "Evolution",
                "chart": {
                    "data": [{
                        "value": [value_last, value_new],
                        "label": value_label
                    }],
                    "labels": ["1985", "2019"]},
-               "data": [value_evolve, value_evolve_pop]}
+               "data": [value_evolve]}
     return json.dumps(results)
 
 
