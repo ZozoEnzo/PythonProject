@@ -1,9 +1,10 @@
 from flask import Flask, render_template, jsonify, abort
 import requests
 import json
-import numpy as np
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 URL_YEAR_CINEMA = "https://data.culture.gouv.fr/api/records/1.0/search/?dataset=frequentation-dans-les-salles-de-cinema&q=&facet=annee&refine.annee="
 URL_POPULATION = "http://open-api.green-walk.fr/data.json"
