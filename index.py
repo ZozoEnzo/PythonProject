@@ -65,12 +65,12 @@ def lasttonewseance():
     value_seances = 'Millier de seances'
 
     # Calcule de l'évolution
-    personne_par_seance_avant = round((value_last_entrees * 1000000) / (value_last_seance * 1000), 2)
-    personne_par_seance_mtn =  round((value_new_entrees * 1000000) / (value_new_seance * 1000), 2)
+    personne_par_seance_avant = round((value_last_entrees * 1000000) / (value_last_seance * 1000), 1)
+    personne_par_seance_mtn =  round((value_new_entrees * 1000000) / (value_new_seance * 1000), 1)
     evolution_entrees = round(((value_new_entrees - value_last_entrees) / value_last_entrees) * 100, 2)
     evolution_seance = round(((value_new_seance - value_last_seance) / value_last_seance) * 100, 2)
-    pp_par_seance_av = str(personne_par_seance_avant) + " personnes moyennes par seance en 1985"
-    pp_par_seance_mtn =str(personne_par_seance_mtn) + " personnes moyennes par seance 2019"
+    pp_par_seance_av = str(personne_par_seance_avant) + " personnes en moyennes par seance en 1985"
+    pp_par_seance_mtn =str(personne_par_seance_mtn) + " personnes en moyennes par seance en 2019"
     if value_last_entrees < value_new_entrees:
         value_evolve_entrees = '+' + str(evolution_entrees) + ' % entrées'
     else:
