@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, abort
+from flask import Flask, abort
 import requests
 import json
 from flask_cors import CORS
@@ -12,11 +12,35 @@ URL_POPULATION = "http://open-api.green-walk.fr/data.json"
 
 @app.route('/lastandnew')
 def lasttonew():
-    results = []
+    # Calcul du nombre d'entré en fonction des années
     datalast = call(URL_YEAR_CINEMA + "1985")
+    data_list_last = json.dumps(datalast['records'][0]['fields'])
+    alls_last = json.loads(data_list_last)
+    list_key_last = list(alls_last.keys())
+    list_val_last = list(alls_last.values())
+    value_last = list_val_last[list_key_last.index('entrees_millions')]
     datanew = call(URL_YEAR_CINEMA + "2019")
-    results.append(json.dumps(datalast['records'][0]['fields']))
-    results.append(json.dumps(datanew['records'][0]['fields']))
+    data_list_new = json.dumps(datanew['records'][0]['fields'])
+    alls_new = json.loads(data_list_new)
+    list_key_new = list(alls_new.keys())
+    list_val_new = list(alls_new.values())
+    value_new = list_val_new[list_key_new.index('entrees_millions')]
+    value_label = 'Million d\'entrée'
+
+    # Calcule de l'évolution
+    evolution = round(((value_new - value_last) / value_last) * 100, 2)
+    if value_last < value_new:
+        value_evolve = '+' + str(evolution) + ' % entrées'
+    else:
+        value_evolve = '-' + str(evolution) + ' % entrées'
+    results = {"title": "Entrée en fonction de la population",
+               "chart": {
+                   "data": [{
+                       "value": [value_last, value_new],
+                       "label": value_label
+                   }],
+                   "labels": ["1985", "2019"]},
+               "data": [value_evolve, value_evolve_pop]}
     return json.dumps(results)
 
 
