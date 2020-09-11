@@ -12,6 +12,15 @@ URL_POPULATION = "http://open-api.green-walk.fr/data.json"
 
 @app.route('/lastandnew')
 def lasttonew():
+    data = {'labels': [], 'values': []}
+
+    for year in range(1985, 2020):
+        response = call(URL_YEAR_CINEMA + str(year))
+        data['labels'].append(year)
+        data['values'].append(json.dumps(response['records'][0]['fields']['entrees_millions']))
+
+
+
     # Calcul du nombre d'entré en fonction des années
     datalast = call(URL_YEAR_CINEMA + "1985")
     data_list_last = json.dumps(datalast['records'][0]['fields'])
@@ -36,10 +45,10 @@ def lasttonew():
     results = {"title": "Evolution entrées",
                "chart": {
                    "data": [{
-                       "value": [value_last, value_new],
+                       "value": data['values'],
                        "label": value_label
                    }],
-                   "labels": ["1985", "2019"]},
+                   "labels": data['labels']},
                "data": [value_evolve]}
     return json.dumps(results)
 
@@ -119,7 +128,7 @@ def lastandnewpopulation():
     
     #Calcule des populations en fonction des années
     populations = call(URL_POPULATION)
-    for item in populations: 
+    for item in populations:
         if '1985' in item:
             last_pop = int(item['1985'].replace(' ','')) / 1000000
         if '2019' in item:
