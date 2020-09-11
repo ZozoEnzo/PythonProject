@@ -33,7 +33,7 @@ def lasttonew():
         value_evolve = '+' + str(evolution) + '%\n entrées'
     else:
         value_evolve = '-' + str(evolution) + '%\n entrées'
-    results = {"title": "Evolution",
+    results = {"title": "Evolution entrées",
                "chart": {
                    "data": [{
                        "value": [value_last, value_new],
@@ -79,7 +79,7 @@ def lasttonewseance():
         value_evolve_seance = '+' + str(evolution_seance) + '%\n seances'
     else:
         value_evolve_seance = '-' + str(evolution_seance) + '%\n entrées'
-    results = {"title": "Evolution séance",
+    results = {"title": "Evolution entrée séance",
                "chart": {
                    "data": [{
                        "value": [value_last_entrees, value_new_entrees],
@@ -108,7 +108,7 @@ def lastandnewpopulation():
     list_key_new = list(alls_new.keys())
     list_val_new = list(alls_new.values())
     value_new = list_val_new[list_key_new.index('entrees_millions')]
-    value_label = 'Million d\'entrée'
+    value_label = 'Entrée en millions'
 
     #Calcule de l'évolution
     evolution = round(((value_new - value_last)/value_last)*100,2)
@@ -121,16 +121,16 @@ def lastandnewpopulation():
     populations = call(URL_POPULATION)
     for item in populations: 
         if '1985' in item:
-            last_pop = int(item['1985'].replace(' ',''))
+            last_pop = int(item['1985'].replace(' ','')) / 1000000
         if '2019' in item:
-            new_pop = int(item['2019'].replace(' ',''))
+            new_pop = int(item['2019'].replace(' ','')) / 1000000
     #Calcule de l'évolution de la population en fonction des années
     evolution_pop = round((((new_pop - last_pop)/last_pop)*100), 2)
     if last_pop < new_pop:
         value_evolve_pop = '+'+ str(evolution_pop) + '%\n de population'
     else: 
         value_evolve_pop = '-'+ str(evolution_pop)+'%\n de population'
-    label_pop = 'Population'
+    label_pop = 'Population en millions'
     
     results = { "title" : "Entrée en fonction de la population",
         "chart": {
@@ -231,10 +231,13 @@ def fivemorelessfive(year):
         results = { "title" : "Recette global en fonction de l'année",
             "chart": 
             {
-                "data":[
-                {
+                "data":[{
                     "value" : [value_min, value_normal, value_max],
-                    "label" : "Comparaison -5 & +5"
+                    "label" : "Recette en millions"
+                },
+                {
+                    "value" : [pop_min / 1000000, pop_normal / 1000000, pop_max / 1000000],
+                    "label" : "Population en millions"
                 }],
                 "labels": [str(int(year)-5),str(year),str(int(year)+5)]
             },
