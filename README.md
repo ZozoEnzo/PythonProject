@@ -1,5 +1,11 @@
 # PythonProject
 
+Bellata Alex 
+Enzo Borges 
+Alexandre Giannetto
+
+Front : https://github.com/Alexg78bis/IPSSI-dataStats
+
 ###Installation
 Récupérer le projet via git <br>
 ```pip install flask```<br>
