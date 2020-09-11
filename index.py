@@ -30,10 +30,10 @@ def lasttonew():
     # Calcule de l'évolution
     evolution = round(((value_new - value_last) / value_last) * 100, 2)
     if value_last < value_new:
-        value_evolve = '+' + str(evolution) + ' % entrées'
+        value_evolve = '+' + str(evolution) + '%\n entrées'
     else:
-        value_evolve = '-' + str(evolution) + ' % entrées'
-    results = {"title": "Evolution entrées",
+        value_evolve = '-' + str(evolution) + '%\n entrées'
+    results = {"title": "Evolution",
                "chart": {
                    "data": [{
                        "value": [value_last, value_new],
@@ -69,17 +69,17 @@ def lasttonewseance():
     personne_par_seance_mtn =  round((value_new_entrees * 1000000) / (value_new_seance * 1000), 1)
     evolution_entrees = round(((value_new_entrees - value_last_entrees) / value_last_entrees) * 100, 2)
     evolution_seance = round(((value_new_seance - value_last_seance) / value_last_seance) * 100, 2)
-    pp_par_seance_av = str(personne_par_seance_avant) + " personnes en moyennes par seance en 1985"
-    pp_par_seance_mtn =str(personne_par_seance_mtn) + " personnes en moyennes par seance en 2019"
+    pp_par_seance_av = str(personne_par_seance_avant) + "\n personnes en moyennes \n par seance en 1985"
+    pp_par_seance_mtn =str(personne_par_seance_mtn) + " \n personnes en moyennes \n par seance en 2019"
     if value_last_entrees < value_new_entrees:
-        value_evolve_entrees = '+' + str(evolution_entrees) + ' % entrées'
+        value_evolve_entrees = '+' + str(evolution_entrees) + '%\n entrées'
     else:
-        value_evolve_entrees = '-' + str(evolution_entrees) + ' % entrées'
+        value_evolve_entrees = '-' + str(evolution_entrees) + '%\n entrées'
     if value_last_seance < value_new_seance:
-        value_evolve_seance = '+' + str(evolution_seance) + ' % seances'
+        value_evolve_seance = '+' + str(evolution_seance) + '%\n seances'
     else:
-        value_evolve_seance = '-' + str(evolution_seance) + ' % entrées'
-    results = {"title": "Evolution séances",
+        value_evolve_seance = '-' + str(evolution_seance) + '%\n entrées'
+    results = {"title": "Evolution séance",
                "chart": {
                    "data": [{
                        "value": [value_last_entrees, value_new_entrees],
@@ -113,9 +113,9 @@ def lastandnewpopulation():
     #Calcule de l'évolution
     evolution = round(((value_new - value_last)/value_last)*100,2)
     if value_last < value_new:
-        value_evolve = '+'+ str(evolution) + ' % entrées'
+        value_evolve = '+'+ str(evolution) + '%\n entrées'
     else: 
-        value_evolve = '-'+ str(evolution) +' % entrées'
+        value_evolve = '-'+ str(evolution) +'%\n entrées'
     
     #Calcule des populations en fonction des années
     populations = call(URL_POPULATION)
@@ -127,29 +127,31 @@ def lastandnewpopulation():
     #Calcule de l'évolution de la population en fonction des années
     evolution_pop = round((((new_pop - last_pop)/last_pop)*100), 2)
     if last_pop < new_pop:
-        value_evolve_pop = '+'+ str(evolution_pop) + ' % de population'
+        value_evolve_pop = '+'+ str(evolution_pop) + '%\n de population'
     else: 
-        value_evolve_pop = '-'+ str(evolution_pop)+' % de population'
+        value_evolve_pop = '-'+ str(evolution_pop)+'%\n de population'
     label_pop = 'Population'
     
     results = { "title" : "Entrée en fonction de la population",
         "chart": {
-        "data":[{
-        "value" : [value_last, value_new],
-        "label" : value_label
-    }, {
-        "value": [last_pop, new_pop],
-        "label": label_pop
-        }],
-    "labels": ["1985","2019"]},
-    "data": [value_evolve,value_evolve_pop]}
+            "data": [
+                {
+                    "value" : [value_last, value_new],
+                    "label" : value_label
+                }, {
+                    "value": [last_pop, new_pop],
+                    "label": label_pop
+                }
+            ],
+            "labels": ["1985","2019"]},
+            "data": [value_evolve,value_evolve_pop]}
     return json.dumps(results)
 
 
 
 @app.route('/fivemorelessfive/<path:year>')
 def fivemorelessfive(year):
-    if int(year) < 2015 and int(year) > 1990: 
+    if int(year) < 2015 and int(year) >= 1990: 
         results = []
 
         #Récupération des données de 3 années, année exact, +5 et -5
@@ -180,21 +182,21 @@ def fivemorelessfive(year):
         #Min -> Normal
         recette_min_normal = round((((value_normal - value_min)/value_min)*100), 2)
         if value_min < value_normal:
-            value_recette_min_normal =  '+'+ str(recette_min_normal) + ' % de recette entre '+ str(int(year)-5) + ' et '+ str(year)
+            value_recette_min_normal =  '+'+ str(recette_min_normal) + '%\n de recette entre '+ str(int(year)-5) + ' et '+ str(year)
         else: 
-            value_recette_min_normal = '-'+ str(recette_min_normal)+' % de recette entre '+ str(int(year)-5) + ' et '+ str(year)
+            value_recette_min_normal = '-'+ str(recette_min_normal)+'%\n de recette entre '+ str(int(year)-5) + ' et '+ str(year)
         #Normal -> Max
         recette_normal_max = round((((value_max - value_normal)/value_normal)*100), 2)
         if value_normal < value_max:
-            value_recette_normal_max =  '+'+ str(recette_normal_max) + ' % de recette entre '+ str(year) + ' et '+ str(int(year)+5)
+            value_recette_normal_max =  '+'+ str(recette_normal_max) + '%\n de recette entre '+ str(year) + ' et '+ str(int(year)+5)
         else: 
-            value_recette_normal_max = '-'+ str(recette_normal_max)+' % de recette entre '+ str(year) + ' et '+ str(int(year)+5)
+            value_recette_normal_max = '-'+ str(recette_normal_max)+'%\n de recette entre '+ str(year) + ' et '+ str(int(year)+5)
         #Min -> Max
         recette_min_max = round((((value_max - value_min)/value_min)*100), 2)
         if value_min < value_max:
-            value_recette_min_max =  '+'+ str(recette_min_max) + ' % de recette entre '+ str(int(year)-5) + ' et '+ str(int(year)+5)
+            value_recette_min_max =  '+'+ str(recette_min_max) + '%\n de recette entre '+ str(int(year)-5) + ' et '+ str(int(year)+5)
         else: 
-            value_recette_min_max = '-'+ str(recette_min_max)+' % de recette entre '+ str(int(year)-5) + ' et '+ str(int(year)+5)
+            value_recette_min_max = '-'+ str(recette_min_max)+'%\n de recette entre '+ str(int(year)-5) + ' et '+ str(int(year)+5)
 
         #Calcule des populations en fonction des années
         populations = call(URL_POPULATION)
@@ -209,21 +211,21 @@ def fivemorelessfive(year):
         #Min -> Normal
         evolution_pop_min_normal = round((((pop_normal - pop_min)/pop_min)*100), 2)
         if pop_min < pop_normal:
-            value_evolve_pop_min_normal =  '+'+ str(evolution_pop_min_normal) + ' % de population entre '+ str(int(year)-5) + ' et '+ str(year)
+            value_evolve_pop_min_normal =  '+'+ str(evolution_pop_min_normal) + '%\n de population entre '+ str(int(year)-5) + ' et '+ str(year)
         else: 
-            value_evolve_pop_min_normal = '-'+ str(evolution_pop_min_normal)+' % de population entre '+ str(int(year)-5) + ' et '+ str(year)
+            value_evolve_pop_min_normal = '-'+ str(evolution_pop_min_normal)+'%\n de population entre '+ str(int(year)-5) + ' et '+ str(year)
         #Normal -> Max
         evolution_pop_normal_max = round((((pop_max - pop_normal)/pop_normal)*100), 2)
         if pop_normal < pop_max:
-            value_evolve_pop_normal_max =  '+'+ str(evolution_pop_normal_max) + ' % de population entre '+ str(year) + ' et '+ str(int(year)+5)
+            value_evolve_pop_normal_max =  '+'+ str(evolution_pop_normal_max) + '%\n de population entre '+ str(year) + ' et '+ str(int(year)+5)
         else: 
-            value_evolve_pop_normal_max = '-'+ str(evolution_pop_normal_max)+' % de population entre '+ str(year) + ' et '+ str(int(year)+5)
+            value_evolve_pop_normal_max = '-'+ str(evolution_pop_normal_max)+'%\n de population entre '+ str(year) + ' et '+ str(int(year)+5)
         #Min -> Max
         evolution_pop_min_max = round((((pop_max - pop_min)/pop_min)*100), 2)
         if pop_min < pop_max:
-            value_evolve_pop_min_max =  '+'+ str(evolution_pop_min_max) + ' % de population entre '+ str(int(year)-5) + ' et '+ str(int(year)+5)
+            value_evolve_pop_min_max =  '+'+ str(evolution_pop_min_max) + '%\n de population entre '+ str(int(year)-5) + ' et '+ str(int(year)+5)
         else: 
-            value_evolve_pop_min_max = '-'+ str(evolution_pop_min_max)+' % de population entre '+ str(int(year)-5) + ' et '+ str(int(year)+5)
+            value_evolve_pop_min_max = '-'+ str(evolution_pop_min_max)+'%\n de population entre '+ str(int(year)-5) + ' et '+ str(int(year)+5)
         
         #Fabrication du tableau
         results = { "title" : "Recette global en fonction de l'année",
